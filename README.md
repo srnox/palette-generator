@@ -20,7 +20,7 @@ A sleek and professional color palette generator built with HTML, CSS, and JavaS
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/palette-generator.git
+git clone https://github.com/srnox/palette-generator.git
 ```
 
 2. Open `index.html` in your web browser:
