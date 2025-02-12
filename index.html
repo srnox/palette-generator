@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Color Palette Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .color-box {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 1rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-code {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .color-code:hover {
+            transform: scale(1.05);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Color Palette Generator</h1>
+        <p class="subtitle">Create beautiful color combinations</p>
+    </div>
+
+    <div class="main-content">
+        <div class="container" id="palette"></div>
+        <div class="controls">
+            <button onclick="generatePalette()">Generate New Palette</button>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="notification">Color code copied!</div>
+
+    <script>
+        function generateRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification();
+            });
+        }
+
+        function generatePalette() {
+            const paletteContainer = document.getElementById('palette');
+            paletteContainer.innerHTML = '';
+
+            for (let i = 0; i < 5; i++) {
+                const color = generateRandomColor();
+                const colorBox = document.createElement('div');
+                colorBox.className = 'color-box';
+                colorBox.style.backgroundColor = color;
+
+                const colorCode = document.createElement('span');
+                colorCode.className = 'color-code';
+                colorCode.textContent = color;
+                colorCode.onclick = () => copyToClipboard(color);
+
+                colorBox.appendChild(colorCode);
+                paletteContainer.appendChild(colorBox);
+            }
+        }
+
+        // Generate initial palette
+        generatePalette();
+    </script>
+</body>
+</html>
